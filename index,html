@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>旅のしおり</title>
+<style>
+/* ====== 基本設定 ====== */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f4f4;
+}
+
+/* ====== 背景 ====== */
+body.locked {
+  background: url('background.jpg') no-repeat center center/cover;
+}
+
+/* ====== パスワード画面 ====== */
+#passwordScreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  backdrop-filter: blur(4px);
+}
+#passwordScreen input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  margin-bottom: 10px;
+}
+#passwordScreen button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ====== しおり画面 ====== */
+#shiori {
+  display: none;
+}
+
+/* 上部固定ボタン */
+#dayNav {
+  position: sticky;
+  top: 0;
+  background: rgba(25, 118, 210, 0.95);
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  z-index: 100;
+}
+#dayNav button {
+  margin: 0 5px;
+  padding: 8px 12px;
+  background: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+#dayNav button.active {
+  background: #ff9800;
+  color: white;
+}
+
+/* 予定カード */
+.dayContent {
+  display: none;
+  padding: 10px;
+}
+.card {
+  background: white;
+  margin-bottom: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+}
+.card h3 {
+  margin-top: 0;
+  color: #1976d2;
+}
+.card p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+</style>
+</head>
+<body class="locked">
+
+<!-- ====== パスワード画面 ====== -->
+<div id="passwordScreen">
+  <input type="password" id="passwordInput" placeholder="パスワードを入力">
+  <button onclick="checkPassword()">開く</button>
+</div>
+
+<!-- ====== しおり画面 ====== -->
+<div id="shiori">
+
+  <!-- 日付切り替え -->
+  <div id="dayNav">
+    <button onclick="showDay(1)" class="active">1日目</button>
+    <button onclick="showDay(2)">2日目</button>
+    <button onclick="showDay(3)">3日目</button>
+  </div>
+
+  <!-- 1日目 -->
+  <div id="day1" class="dayContent" style="display:block;">
+    <div class="card">
+      <h3>東京駅 出発</h3>
+      <p>09:00 新幹線で東京から出発</p>
+    </div>
+    <div class="card">
+      <h3>浅草観光</h3>
+      <p>10:30 浅草寺・仲見世通りを散策</p>
+    </div>
+    <div class="card">
+      <h3>東京スカイツリー</h3>
+      <p>14:00 展望台で東京を一望</p>
+    </div>
+  </div>
+
+  <!-- 2日目 -->
+  <div id="day2" class="dayContent">
+    <div class="card">
+      <h3>上野動物園</h3>
+      <p>10:00 パンダを見学</p>
+    </div>
+    <div class="card">
+      <h3>アメ横散策</h3>
+      <p>12:00 食べ歩き・ショッピング</p>
+    </div>
+  </div>
+
+  <!-- 3日目 -->
+  <div id="day3" class="dayContent">
+    <div class="card">
+      <h3>皇居外苑</h3>
+      <p>09:00 散策と記念撮影</p>
+    </div>
+    <div class="card">
+      <h3>銀座ショッピング</h3>
+      <p>12:00 ブランドショップ巡り</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function checkPassword() {
+  const pass = document.getElementById("passwordInput").value;
+  if (pass === "0616") {
+    document.getElementById("passwordScreen").style.display = "none";
+    document.getElementById("shiori").style.display = "block";
+    document.body.classList.remove("locked");
+  } else {
+    alert("パスワードが違います");
+  }
+}
+
+function showDay(day) {
+  document.querySelectorAll(".dayContent").forEach(div => div.style.display = "none");
+  document.getElementById("day" + day).style.display = "block";
+  document.querySelectorAll("#dayNav button").forEach(btn => btn.classList.remove("active"));
+  document.querySelector(`#dayNav button:nth-child(${day})`).classList.add("active");
+}
+</script>
+
+</body>
+</html>
